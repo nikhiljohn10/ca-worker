@@ -1,0 +1,58 @@
+[tool.poetry]
+authors = ["Nikhil John <nikhiljohn1010@gmail.com>"]
+classifiers = [
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+description = "A Cloudflare worker which can be deployed by a CA to publish certificates and fingerprint securely to users for bootstrapping."
+homepage = "https://github.com/nikhiljohn10/ca-worker"
+keywords = ["worker", "ca", "pki", "stepca", "cloudflare"]
+name = "ca-worker"
+readme = "README.md"
+repository = "https://github.com/nikhiljohn10/ca-worker"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+cloudflare-api = "^1.3.9"
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+black = "^21.8b0"
+flake8 = "^3.9.2"
+isort = "^5.9.3"
+pytest = "^5.2"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+[tool.isort]
+atomic = true
+filter_files = true
+force_single_line = true
+include_trailing_comma = true
+known_first_party = "caworker"
+lines_after_imports = 2
+lines_between_types = 1
+profile = "black"
+skip_glob = ["*/setup.py"]
+src_paths = ["caworker", "tests"]
+use_parentheses = true
+
+[tool.black]
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | build
+  | dist
+  | tests/.*/setup.py
+)/
+'''
+include = '\.pyi?$'
+line-length = 79
