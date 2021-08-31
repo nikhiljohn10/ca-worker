@@ -5,8 +5,10 @@ A Cloudflare worker which can be deployed by a CA to publish certificates and fi
 ## Deployment
 
 ```
-export TOKEN="YOUR_ACCESS_TOKEN"
+export TOKEN="YOUR_CLOUDLFARE_WORKER_TOKEN"
 export FINGERPRINT="YOUR_ROOT_CA_FINGERPRINT"
 export CA_URL="YOUR_ROOT_CA_SERVER_URL"
-make deploy
+
+make install
+make
 ```
