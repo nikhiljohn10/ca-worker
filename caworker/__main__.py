@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-from caworker.deploy import deploy
-from caworker.utils import arguments
+from .deploy import deploy
+from .utils import arguments
 
 
 def main():
     input = arguments()
     deploy(
         input.token,
+        input.title,
         input.worker,
         input.worker_file,
         input.caurl,

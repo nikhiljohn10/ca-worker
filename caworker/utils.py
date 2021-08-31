@@ -15,8 +15,16 @@ def arguments():
         help="Cloudflare API Token",
     )
     parser.add_argument(
+        "-n",
+        "--name",
+        dest="title",
+        type=str,
+        help="CA Server's Name",
+        default="Home CA",
+    )
+    parser.add_argument(
         "-u",
-        "--url",
+        "--ca-url",
         dest="caurl",
         type=str,
         help="CA Server's URL",
@@ -46,7 +54,7 @@ def arguments():
     )
     parser.add_argument(
         "-r",
-        "--rootca",
+        "--root-ca",
         dest="rootca",
         type=str,
         help="CA Root Certificate file in PEM or DER format",
