@@ -13,7 +13,7 @@ endif
 ifeq ($(CA_URL),)
 	@echo "Error: CA_URL environment variable is not found" >&2 && exit 1
 endif
-	@poetry run python -m CAWorker \
+	@poetry run python -m caworker \
 		--token "$(TOKEN)" \
 		--worker "$(WORKER)" \
 		--location "$(WORKER_FILE)" \

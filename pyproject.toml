@@ -31,12 +31,12 @@ atomic = true
 filter_files = true
 force_single_line = true
 include_trailing_comma = true
-known_first_party = "CAWorker"
+known_first_party = "caworker"
 lines_after_imports = 2
 lines_between_types = 1
 profile = "black"
 skip_glob = ["*/setup.py"]
-src_paths = ["CAWorker", "tests"]
+src_paths = ["caworker", "tests"]
 use_parentheses = true
 
 [tool.black]
