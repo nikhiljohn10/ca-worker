@@ -7,7 +7,6 @@ from .utils import arguments
 def main():
     input = arguments()
     deploy(
-        input.token,
         input.title,
         input.worker,
         input.worker_file,

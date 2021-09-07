@@ -4,9 +4,6 @@ endif
 WORKER_FILE="./build/index.js"
 
 deploy: build
-ifeq ($(TOKEN),)
-	@echo "Error: TOKEN environment variable is not found" >&2 && exit 1
-endif
 ifeq ($(FINGERPRINT),)
 	@echo "Error: FINGERPRINT environment variable is not found" >&2 && exit 1
 endif
@@ -14,7 +11,6 @@ ifeq ($(CA_URL),)
 	@echo "Error: CA_URL environment variable is not found" >&2 && exit 1
 endif
 	@poetry run python -m caworker \
-		--token "$(TOKEN)" \
 		--worker "$(WORKER)" \
 		--location "$(WORKER_FILE)" \
 		--fingerprint "$(FINGERPRINT)" \
@@ -32,6 +28,9 @@ clean:
 
 install: pyproject.toml
 	@pip install poetry --user
-	@poetry install
+	@poetry install 2> /dev/null || poetry update
+
+reset:
+	@yes | poetry cache clear . --all > /dev/null 2>&1
 
 .PHONY: clean build deploy install
