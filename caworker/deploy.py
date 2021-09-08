@@ -16,9 +16,6 @@ def deploy(
 ):
 
     worker_file = Path(worker_file).resolve(strict=True)
-    rootca = Path(rootca).read_text()
-    print(type(rootca))
-    print(rootca)
 
     print(f"Deploying worker: {worker}")
     cf = Cloudflare()
@@ -27,6 +24,11 @@ def deploy(
         namespace = cf.store.get_ns("STEPCA_KEYSTORE")
     except CFError:
         namespace = cf.store.create("STEPCA_KEYSTORE")
+
+    try:
+        rootca = Path(rootca).read_text()
+    except UnicodeDecodeError:
+        rootca = Path(rootca).read_bytes()
 
     metadata = cf.worker.Metadata()
     metadata.add_binding("STEPCA_KEYSTORE", namespace.id)
