@@ -5,7 +5,7 @@ from pathlib import Path
 from CloudflareAPI import Cloudflare
 from CloudflareAPI.exceptions import CFError
 
-WORKER_NS_NAME_KEY = "CA_CERTSTORE"
+WORKER_NS_NAME_KEY = "CA_CERT_STORE"
 WORKER_TITLE_KEY = "CA_TITLE"
 WORKER_FINGERPRINT_KEY = "ROOT_CA_FINGERPRINT"
 WORKER_CA_URL_KEY = "ROOT_CA_URL"
@@ -33,13 +33,15 @@ class CAWorker(Cloudflare):
 
     def loadCA(self, rootCA: str):
         try:
-            rootca = Path(rootCA).read_text()
-        except UnicodeDecodeError:
-            rootca = Path(rootCA).read_bytes()
-        try:
             namespace = self.store.get_ns(WORKER_NS_NAME_KEY)
         except CFError:
             namespace = self.store.create(WORKER_NS_NAME_KEY)
+        try:
+            rootca = Path(rootCA).read_text()
+            namespace.write("root_ca_format", "pem")
+        except UnicodeDecodeError:
+            rootca = Path(rootCA).read_bytes()
+            namespace.write("root_ca_format", "der")
         namespace.write("root_ca", rootca)
         self.metadata.add_binding(WORKER_NS_NAME_KEY, namespace.id)
 

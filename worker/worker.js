@@ -12,10 +12,20 @@ async function handleRequest(request) {
   const { pathname } = new URL(request.url)
 
   if (pathname.startsWith("/root_ca.crt")) {
-    certificate = await CA_CERTSTORE.get("root_ca", "arrayBuffer")
+    let certificate
+    const format = await CA_CERT_STORE.get("root_ca_format")
+    if (format == "der") {
+      certificate = await CA_CERT_STORE.get("root_ca", "arrayBuffer")
+      return new Response(certificate, {
+        headers: {
+          "Content-Type": "application/octet-stream"
+        }
+      })
+    }
+    certificate = await CA_CERT_STORE.get("root_ca")
     return new Response(certificate, {
       headers: {
-        "Content-Type": "application/octet-stream"
+        "Content-Type": "application/x-x509-ca-cert"
       }
     })
   }
