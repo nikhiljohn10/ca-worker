@@ -1,20 +1,28 @@
 ifndef WORKER
-	WORKER="ca"
+WORKER="ca"
 endif
 WORKER_FILE="./build/index.js"
 
 deploy: build
+ifeq ($(CA_NAME),)
+	@echo "Error: CA_NAME environment variable is not found" >&2 && exit 1
+endif
 ifeq ($(FINGERPRINT),)
 	@echo "Error: FINGERPRINT environment variable is not found" >&2 && exit 1
 endif
 ifeq ($(CA_URL),)
 	@echo "Error: CA_URL environment variable is not found" >&2 && exit 1
 endif
-	@poetry run python -m caworker \
-		--worker "$(WORKER)" \
-		--location "$(WORKER_FILE)" \
+ifeq ($(ROOT_CA_CERT),)
+	@echo "Error: ROOT_CA_CERT environment variable is not found" >&2 && exit 1
+endif
+	@poetry run python deploy.py \
+		--name "$(CA_NAME)" \
 		--fingerprint "$(FINGERPRINT)" \
-		--ca-url "$(CA_URL)"
+		--ca-url "$(CA_URL)" \
+		--root-ca "$(ROOT_CA_CERT)" \
+		--worker "$(WORKER)" \
+		--location "$(WORKER_FILE)"
 
 build: clean ./worker/index.html ./worker/worker.js
 	@mkdir -p ./build 
@@ -32,7 +40,7 @@ install: pyproject.toml
 	@pip install poetry --user
 	@poetry update
 
-reset:
+reset: clean
 	@yes | poetry cache clear . --all > /dev/null 2>&1
 
 .PHONY: clean build deploy install
