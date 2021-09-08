@@ -8,13 +8,6 @@ def arguments():
         prog="deploy", description="Worker Deployment"
     )
     parser.add_argument(
-        "-t",
-        "--token",
-        dest="token",
-        type=str,
-        help="Cloudflare API Token",
-    )
-    parser.add_argument(
         "-n",
         "--name",
         dest="title",
