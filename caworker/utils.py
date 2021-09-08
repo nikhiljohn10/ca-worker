@@ -3,9 +3,9 @@
 import argparse
 
 
-def arguments():
+def workerArgs():
     parser = argparse.ArgumentParser(
-        prog="deploy", description="Worker Deployment"
+        prog="caworker", description="CA Worker Deployment"
     )
     parser.add_argument(
         "-n",
@@ -13,7 +13,13 @@ def arguments():
         dest="title",
         type=str,
         help="CA Server's Name",
-        default="Home CA",
+    )
+    parser.add_argument(
+        "-f",
+        "--fingerprint",
+        dest="fingerprint",
+        type=str,
+        help="Root CA Certificate's fingerprint",
     )
     parser.add_argument(
         "-u",
@@ -23,11 +29,11 @@ def arguments():
         help="CA Server's URL",
     )
     parser.add_argument(
-        "-f",
-        "--fingerprint",
-        dest="fingerprint",
+        "-r",
+        "--root-ca",
+        dest="rootca",
         type=str,
-        help="Root CA Certificate's fingerprint",
+        help="CA Root Certificate file in PEM or DER format",
     )
     parser.add_argument(
         "-w",
@@ -40,17 +46,9 @@ def arguments():
     parser.add_argument(
         "-l",
         "--location",
-        dest="worker_file",
+        dest="file",
         type=str,
         help="Worker file location",
-        default="./worker/worker.js",
-    )
-    parser.add_argument(
-        "-r",
-        "--root-ca",
-        dest="rootca",
-        type=str,
-        help="CA Root Certificate file in PEM or DER format",
-        default="./certs/Cloudflare_CA.crt",
+        default="./build/index.js",
     )
     return parser.parse_args()
