@@ -12,7 +12,7 @@ async function handleRequest(request) {
   const { pathname } = new URL(request.url)
 
   if (pathname.startsWith("/root_ca.crt")) {
-    certificate = await STEPCA_KEYSTORE.get("root_ca", "arrayBuffer")
+    certificate = await CA_CERTSTORE.get("root_ca", "arrayBuffer")
     return new Response(certificate, {
       headers: {
         "Content-Type": "application/octet-stream"
